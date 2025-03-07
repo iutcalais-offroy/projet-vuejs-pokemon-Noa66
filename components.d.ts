@@ -11,6 +11,7 @@ declare module 'vue' {
     'HeaderMenu.component': typeof import('./src/components/HeaderMenu.component.vue')['default']
     'Login.component': typeof import('./src/components/Login.component.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
+    NCard: typeof import('naive-ui')['NCard']
     NForm: typeof import('naive-ui')['NForm']
     NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']

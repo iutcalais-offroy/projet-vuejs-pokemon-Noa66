@@ -1,8 +1,6 @@
 <template>
   <div>
     <n-menu :options="menuOptions" mode="horizontal" />
-    
-    <!-- Modal de connexion/inscription -->
     <n-modal v-model:show="showLoginModal" preset="card" title="Connexion / Inscription">
       <LoginPage @close="showLoginModal = false" />
     </n-modal>
@@ -41,3 +39,11 @@ const menuOptions = computed(() => [
   }
 ]);
 </script>
+
+<style scoped>
+.login-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+</style>
