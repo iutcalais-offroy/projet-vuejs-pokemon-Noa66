@@ -9,12 +9,19 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     'HeaderMenu.component': typeof import('./src/components/HeaderMenu.component.vue')['default']
+    'Login.component': typeof import('./src/components/Login.component.vue')['default']
+    NButton: typeof import('naive-ui')['NButton']
+    NForm: typeof import('naive-ui')['NForm']
+    NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    NModal: typeof import('naive-ui')['NModal']
     NSpace: typeof import('naive-ui')['NSpace']
+    NTabPane: typeof import('naive-ui')['NTabPane']
+    NTabs: typeof import('naive-ui')['NTabs']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

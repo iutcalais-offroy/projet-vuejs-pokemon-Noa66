@@ -1,12 +1,21 @@
 <template>
-  <n-menu :options="menuOptions" mode="horizontal"/>
+  <div>
+    <n-menu :options="menuOptions" mode="horizontal" />
+    
+    <!-- Modal de connexion/inscription -->
+    <n-modal v-model:show="showLoginModal" preset="card" title="Connexion / Inscription">
+      <LoginPage @close="showLoginModal = false" />
+    </n-modal>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import {computed} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import LoginPage from './Login.component.vue';
 
 const router = useRouter();
+const showLoginModal = ref(false);
 
 const menuOptions = computed(() => [
   {
@@ -27,7 +36,7 @@ const menuOptions = computed(() => [
     label: 'Login',
     key: 'login',
     onClick: () => {
-      router.push('/login');
+      showLoginModal.value = true;
     }
   }
 ]);
