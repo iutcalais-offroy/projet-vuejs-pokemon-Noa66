@@ -4,8 +4,8 @@
       <n-tabs type="line" v-model="activeTab">
         <n-tab-pane name="login" tab="Connexion">
           <n-form>
-            <n-input v-model="loginForm.email" placeholder="Email" type="email" required />
-            <n-input v-model="loginForm.password" placeholder="Mot de passe" type="password" required />
+            <n-input v-model="emailLogin" placeholder="Email" type="email" required />
+            <n-input v-model="passwordLogin" placeholder="Mot de passe" type="password" required />
             <n-alert v-if="loginError" type="error">{{ loginError }}</n-alert>
             <n-button type="primary" block @click="login">Se connecter</n-button>
           </n-form>
@@ -13,9 +13,9 @@
 
         <n-tab-pane name="register" tab="Inscription">
           <n-form>
-            <n-input v-model="registerForm.email" placeholder="Email" type="email" required />
-            <n-input v-model="registerForm.password" placeholder="Mot de passe" type="password" required />
-            <n-input v-model="registerForm.confirmPassword" placeholder="Confirmer le mot de passe" type="password" required />
+            <n-input v-model="emailRegister" placeholder="Email" type="email" required />
+            <n-input v-model="passwordRegister" placeholder="Mot de passe" type="password" required />
+            <n-input v-model="confirmPasswordRegister" placeholder="Confirmer le mot de passe" type="password" required />
             <n-alert v-if="registerError" type="error">{{ registerError }}</n-alert>
             <n-button type="primary" block @click="register">S'inscrire</n-button>
           </n-form>
@@ -31,67 +31,68 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const emit = defineEmits(["closeModal"]);
-
 const router = useRouter();
 
 const activeTab = ref("login");
 
-const loginForm = ref({
-  email: "",
-  password: "",
-});
-
-const registerForm = ref({
-  email: "",
-  password: "",
-  confirmPassword: "",
-});
+const emailRegister = ref("");
+const passwordRegister = ref("");
+const confirmPasswordRegister = ref("");
+const emailLogin = ref("");
+const passwordLogin = ref("");
 
 const loginError = ref("");
 const registerError = ref("");
 
 const register = async () => {
-  console.log("Tentative d'inscription avec les données:", registerForm.value);  // Ajout d'un log
+  console.log("Tentative d'inscription avec les données:", {
+    email: emailRegister.value,
+    password: passwordRegister.value,
+  });
   registerError.value = "";
-  if (registerForm.value.password !== registerForm.value.confirmPassword) {
+
+  if (passwordRegister.value !== confirmPasswordRegister.value) {
     registerError.value = "Les mots de passe ne correspondent pas.";
     return;
   }
 
   try {
     const response = await axios.post("https://pokemon-api-seyrinian-production.up.railway.app/users", {
-      email: registerForm.value.email,
-      password: registerForm.value.password,
+      email: emailRegister.value,
+      password: passwordRegister.value,
     });
     console.log("Inscription réussie", response.data);
-    emit("closeModal"); 
+    emit("closeModal");
   } catch (error) {
-    console.error("Erreur lors de l'inscription:", error);  // Ajout de log pour le débogage
+    console.error("Erreur lors de l'inscription:", error);
     registerError.value = "Erreur lors de l'inscription.";
   }
 };
 
 const login = async () => {
-  console.log("Tentative de connexion avec les données:", loginForm.value);  // Ajout d'un log
+  console.log("Tentative de connexion avec les données:", {
+    email: emailLogin.value,
+    password: passwordLogin.value,
+  });
   loginError.value = "";
+  
   try {
     const response = await axios.post("https://pokemon-api-seyrinian-production.up.railway.app/users/login", {
-      email: loginForm.value.email,
-      password: loginForm.value.password,
+      email: emailLogin.value,
+      password: passwordLogin.value,
     });
 
     console.log("Connexion réussie", response.data);
     localStorage.setItem("userid", response.data.user.id);
     localStorage.setItem("token", response.data.token);
     emit("closeModal");
-    router.push('/deck-builder');  // Redirection avec Vue Router
+    router.push("/deck-builder");
   } catch (error) {
-    console.error("Erreur de connexion:", error);  // Ajout de log pour le débogage
+    console.error("Erreur de connexion:", error);
     loginError.value = "Erreur de connexion. Vérifiez vos identifiants.";
   }
 };
 </script>
-
 
 <style scoped>
 .login-page {
