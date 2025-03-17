@@ -3,7 +3,7 @@
     <n-menu :options="menuOptions" mode="horizontal" />
     
     <n-modal v-model:show="showLoginModal" preset="card" title="Connexion / Inscription">
-      <LoginPage />
+      <LoginPage @closeModal="showLoginModal = false" />
     </n-modal>
   </div>
 </template>
@@ -17,6 +17,12 @@ import LoginPage from './Login.component.vue';
 const router = useRouter();
 const userStore = useUserStore();
 const showLoginModal = ref(false);
+
+const openLoginModal = () => {
+  console.log("Ouverture du pop-up");
+  showLoginModal.value = true;
+  console.log("Valeur de showLoginModal:", showLoginModal.value);
+};
 
 const menuOptions = computed(() => {
   const options = [
@@ -49,12 +55,18 @@ const menuOptions = computed(() => {
     options.push({
       label: 'Login',
       key: 'login',
-      onClick: () => {
-        showLoginModal.value = true; 
-      },
+      onClick: openLoginModal,
     });
   }
 
   return options;
 });
 </script>
+
+<style scoped>
+.n-modal {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+</style>
